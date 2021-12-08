@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const Web3 = require("web3");
-const { encode, decode } = require("./converter");
+const { encode, decode } = require("./utils/converter");
 
 const Moralis = require("moralis/node");
 const serverUrl = "https://fb5qdogo473c.usemoralis.com:2053/server";
@@ -14,7 +14,7 @@ Moralis.start({
 console.log("Moralis initialized", Moralis);
 
 const web3 = new Web3("http://localhost:7545");
-const abi = require("./abi.json");
+const abi = require("./assets/abi.json");
 
 const app = express();
 const port = 3000;
