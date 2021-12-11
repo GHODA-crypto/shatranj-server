@@ -55,9 +55,9 @@ const abi = [
         inputs: [
             {
                 indexed: true,
-                internalType: "uint256",
+                internalType: "string",
                 name: "gameId",
-                type: "uint256",
+                type: "string",
             },
             {
                 indexed: true,
@@ -98,9 +98,9 @@ const abi = [
         inputs: [
             {
                 indexed: true,
-                internalType: "uint256",
+                internalType: "string",
                 name: "gameId",
-                type: "uint256",
+                type: "string",
             },
             {
                 indexed: true,
@@ -204,6 +204,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [
@@ -247,6 +248,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -260,6 +262,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -273,6 +276,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -286,6 +290,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [
@@ -323,6 +328,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [
@@ -360,6 +366,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -373,6 +380,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -393,6 +401,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [],
@@ -406,6 +415,7 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
     },
     {
         inputs: [
@@ -498,6 +508,49 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
+        constant: true,
+    },
+    {
+        inputs: [],
+        name: "getFeeAmount",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+        constant: true,
+    },
+    {
+        inputs: [],
+        name: "getNFTfeeAmount",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+        constant: true,
+    },
+    {
+        inputs: [],
+        name: "getCollectedFees",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+        constant: true,
     },
     {
         inputs: [
@@ -539,6 +592,13 @@ const abi = [
         type: "function",
     },
     {
+        inputs: [],
+        name: "collectFee",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "uint256",
@@ -567,9 +627,9 @@ const abi = [
     {
         inputs: [
             {
-                internalType: "uint256",
+                internalType: "string",
                 name: "_gameId",
-                type: "uint256",
+                type: "string",
             },
             {
                 internalType: "address",
@@ -590,9 +650,51 @@ const abi = [
     {
         inputs: [
             {
-                internalType: "uint256",
+                internalType: "string",
                 name: "_gameId",
-                type: "uint256",
+                type: "string",
+            },
+        ],
+        name: "getGame",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "address",
+                        name: "white",
+                        type: "address",
+                    },
+                    {
+                        internalType: "address",
+                        name: "black",
+                        type: "address",
+                    },
+                    {
+                        internalType: "uint8",
+                        name: "outcome",
+                        type: "uint8",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "nft",
+                        type: "uint256",
+                    },
+                ],
+                internalType: "struct ChessGame.Game",
+                name: "game",
+                type: "tuple",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+        constant: true,
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "_gameId",
+                type: "string",
             },
             {
                 internalType: "uint8",
@@ -600,9 +702,9 @@ const abi = [
                 type: "uint8",
             },
             {
-                internalType: "uint256",
-                name: "_nftId",
-                type: "uint256",
+                internalType: "string",
+                name: "_ipfsHash",
+                type: "string",
             },
         ],
         name: "endGame",

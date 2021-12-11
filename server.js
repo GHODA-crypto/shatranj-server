@@ -33,7 +33,6 @@ app.post("/start", async (req, res) => {
     const { id, w, b } = req.body;
     // const intGameId = encode(game.id);
     const startGameSend = async (id, w, b) => {
-        console.log("startGameSend", intGameId, game);
         return await contract.methods
             .startGame(id, w, b)
             .send()
@@ -53,9 +52,9 @@ app.post("/end", async (req, res) => {
         res.sendStatus(401);
         return;
     }
-    const { id, pgn, outcome, needNFT } = req.body;
+    const { id, pgn, outcome, needNFT, w, b } = req.body;
     let ipfsHash = "";
-    if (needNFT) ipfsHash = await getNFT(pgn, gameId, outcome);
+    if (needNFT && (outcome == 3 || outcome == 4)) ipfsHash = await getNFT(id, pgn, outcome, w, b);
 
     const endGameSend = async (id, outcome, ipfsHash) => {
         return await contract.methods
@@ -69,7 +68,12 @@ app.post("/end", async (req, res) => {
                 return false;
             });
     };
-    res.sendStatus((await endGameSend(id, outcome, ipfsHash)) ? 200 : 500);
+    if (await endGameSend(id, outcome, ipfsHash)) {
+        res.status(200);
+        res.send(JSON.stringify({ ipfs: ipfsHash }));
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 app.listen(port, () => {
