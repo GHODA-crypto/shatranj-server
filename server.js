@@ -1,54 +1,77 @@
 require("dotenv").config();
 const express = require("express");
 const Web3 = require("web3");
-const { encode, decode } = require("./utils/converter");
+const getNFT = require("./nftGenerator");
+const bodyParser = require("body-parser");
 
-const Moralis = require("moralis/node");
-const serverUrl = "https://fb5qdogo473c.usemoralis.com:2053/server";
-const appId = "ahsSC5MWcmf8ZeCzR1IlFeXI64WdRQuym1BSj1bK";
-Moralis.start({
-    serverUrl,
-    appId,
-    masterKey: process.env.MORALIS_MASTER_KEY,
-});
-console.log("Moralis initialized", Moralis);
-
-const web3 = new Web3("http://localhost:7545");
-const abi = require("./assets/abi.json");
+const web3 = new Web3("https://speedy-nodes-nyc.moralis.io/cdd2c782833f3dba40a1603b/polygon/mumbai");
+const abi = require("./assets/abi");
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 const account = web3.eth.accounts.privateKeyToAccount(process.env.PRIVATE_KEY);
 web3.eth.accounts.wallet.add(account);
-const contract = new web3.eth.Contract(abi, process.env.CONTRACT_ADDRESS);
-
-app.use(express.json());
-app.use(express.urlencoded());
-
-app.get("/", async (req, res) => {
-    const balance = await web3.eth.getBalance(account.address);
-    res.send("Hello World! " + balance);
+const contract = new web3.eth.Contract(abi, process.env.CONTRACT_ADDRESS, {
+    from: account.address,
+    gas: 1000000,
 });
 
-app.get("/start", async (req, res) => {
-    const Challenge = Moralis.Object.extend("Challenge");
-    const query = new Moralis.Query(Challenge);
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-    // 1GPzZ2ku5cDbMWFJaYeq8SNc
+// app.post("/", async (req, res) => {
+//     const balance = await web3.eth.getBalance(account.address);
+//     res.send("Hello World! " + balance);
+// });
 
-    query.equalTo("objectId", req.body.challengeObjectId);
-    const challenge = (await query.get("1GPzZ2ku5cDbMWFJaYeq8SNc")).attributes;
-    intGameId = encode(req.body.challengeObjectId);
+app.post("/start", async (req, res) => {
+    if (req.body.api != process.env.SERVER_API_KEY) {
+        res.sendStatus(401);
+        return;
+    }
+    const { id, w, b } = req.body;
+    // const intGameId = encode(game.id);
+    const startGameSend = async (id, w, b) => {
+        console.log("startGameSend", intGameId, game);
+        return await contract.methods
+            .startGame(id, w, b)
+            .send()
+            .then(r => {
+                return true;
+            })
+            .catch(err => {
+                // console.error(err);
+                return false;
+            });
+    };
+    res.sendStatus((await startGameSend(id, w, b)) ? 200 : 500);
+});
 
-    const players = challenge.players;
-    // const transaction = await contract.methods.startGame(intGameId, players.w, players.pw, challenge, players.b, players.pb, challenge).send({
-    //     from: account.address,
-    //     gas: 1000000,
-    // });
-    res.send(transaction);
+app.post("/end", async (req, res) => {
+    if (req.body.api != process.env.SERVER_API_KEY) {
+        res.sendStatus(401);
+        return;
+    }
+    const { id, pgn, outcome, needNFT } = req.body;
+    let ipfsHash = "";
+    if (needNFT) ipfsHash = await getNFT(pgn, gameId, outcome);
+
+    const endGameSend = async (id, outcome, ipfsHash) => {
+        return await contract.methods
+            .endGame(id, outcome, ipfsHash)
+            .send()
+            .then(r => {
+                return true;
+            })
+            .catch(err => {
+                console.log(err);
+                return false;
+            });
+    };
+    res.sendStatus((await endGameSend(id, outcome, ipfsHash)) ? 200 : 500);
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`App listening at http://localhost:${port}`);
 });

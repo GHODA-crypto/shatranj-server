@@ -1,8 +1,9 @@
+require("dotenv").config();
 const { createCanvas, loadImage } = require("canvas");
 const { Chess } = require("chess.js");
 const getBlurredProgression = require("./utils/getBlurredProgression");
 
-const { saveImageFromCanvas, saveImageFromBuffer } = require("./utils/saveImage");
+// const { saveImageFromCanvas, saveImageFromBuffer } = require("./utils/saveImage");
 
 const { convert } = require("convert-svg-to-png");
 const pseudoRandom = require("pseudo-random");
@@ -29,7 +30,7 @@ const random_hex_color_code = num => {
     return "#" + n.slice(0, 6);
 };
 
-const getNFT = async (pgn, gameId) => {
+const getNFT = async (pgn, gameId, outcome) => {
     try {
         const chess = new Chess();
 
@@ -47,7 +48,8 @@ const getNFT = async (pgn, gameId) => {
         let ph = chess.history({ verbose: true });
 
         const lmPiece = ph[ph.length - 1].piece;
-        const whiteORblack = pgn.slice(-1);
+        const whiteORblack = outcome == 3 ? 0 : 1;
+        // const whiteORblack = pgn.slice(-1);
         // console.log(whiteORblack);
 
         var crypto = require("crypto");
