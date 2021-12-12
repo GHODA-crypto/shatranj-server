@@ -39,7 +39,6 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
 
         const lmPiece = ph[ph.length - 1].piece;
         const lmove = ph[ph.length - 1];
-        console.log(lmPiece, lmove);
         const whiteORblack = outcome == 3 ? 0 : 1;
         // console.log(whiteORblack);
 
@@ -75,7 +74,7 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
         const frame2 = createCanvas(1080, 1080);
         const frame2Ctx = frame2.getContext("2d");
 
-        if (whiteORblack == "0") {
+        if (whiteORblack == 0) {
             frameCtx.fillStyle = "#FCF5F5";
             frameCtx.rect(0, 0, 1080, 1080);
             frameCtx.fill();
@@ -181,9 +180,9 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
         };
         // console.log(nftData);
 
-        // const metadata = await client.store(nftData);
-        // console.log(metadata);
-        // return metadata.ipnft;
+        const metadata = await client.store(nftData);
+        console.log(metadata);
+        return metadata.ipnft;
     } catch (error) {
         console.log(error);
     }

@@ -61,6 +61,7 @@ app.post("/end", async (req, res) => {
             .endGame(id, outcome, ipfsHash)
             .send()
             .then(r => {
+                console.log(r);
                 return true;
             })
             .catch(err => {
