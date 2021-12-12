@@ -4,7 +4,7 @@ const Web3 = require("web3");
 const getNFT = require("./nftGenerator");
 const bodyParser = require("body-parser");
 
-const web3 = new Web3("https://speedy-nodes-nyc.moralis.io/cdd2c782833f3dba40a1603b/polygon/mumbai");
+const web3 = new Web3(process.env.MORALIS_NODE);
 const abi = require("./assets/abi");
 
 const app = express();
@@ -61,19 +61,20 @@ app.post("/end", async (req, res) => {
             .endGame(id, outcome, ipfsHash)
             .send()
             .then(r => {
-                console.log(r);
-                return true;
+                const r = await contract.methods.getGame(id).call();
+                return r[3];
             })
             .catch(err => {
                 console.log(err);
                 return false;
             });
     };
-    if (await endGameSend(id, outcome, ipfsHash)) {
-        res.status(200);
-        res.send(JSON.stringify({ ipfs: ipfsHash }));
-    } else {
+    endGameRes = await endGameSend(id, outcome, ipfsHash);
+    if (endGameRes === false) {
         res.sendStatus(500);
+    } else {
+        res.status(200);
+        res.send(JSON.stringify({ ipfs: ipfsHash, token_id: endGameRes }));
     }
 });
 
