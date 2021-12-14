@@ -60,7 +60,8 @@ app.post("/end", async (req, res) => {
         return await contract.methods
             .endGame(id, outcome, ipfsHash)
             .send()
-            .then(r => {
+            .then(async result => {
+                console.log(JSON.stringify(result));
                 const r = await contract.methods.getGame(id).call();
                 return r[3];
             })

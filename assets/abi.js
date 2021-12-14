@@ -204,7 +204,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [
@@ -248,7 +247,58 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_bet",
+                type: "uint256",
+            },
+        ],
+        name: "changeBet",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_fee",
+                type: "uint256",
+            },
+        ],
+        name: "changeFee",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_fee",
+                type: "uint256",
+            },
+        ],
+        name: "changeNFTFee",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "newMaster",
+                type: "address",
+            },
+        ],
+        name: "changeServer",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
     },
     {
         inputs: [],
@@ -262,7 +312,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [],
@@ -276,7 +325,13 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
+    },
+    {
+        inputs: [],
+        name: "collectFee",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
     },
     {
         inputs: [],
@@ -290,7 +345,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [
@@ -328,7 +382,128 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "_gameId",
+                type: "string",
+            },
+            {
+                internalType: "uint8",
+                name: "_outcome",
+                type: "uint8",
+            },
+            {
+                internalType: "string",
+                name: "_ipfsHash",
+                type: "string",
+            },
+        ],
+        name: "endGame",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "nftId",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getBetAmount",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getCollectedFees",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getFeeAmount",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "_gameId",
+                type: "string",
+            },
+        ],
+        name: "getGame",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "address",
+                        name: "white",
+                        type: "address",
+                    },
+                    {
+                        internalType: "address",
+                        name: "black",
+                        type: "address",
+                    },
+                    {
+                        internalType: "uint8",
+                        name: "outcome",
+                        type: "uint8",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "nft",
+                        type: "uint256",
+                    },
+                ],
+                internalType: "struct ChessGame.Game",
+                name: "game",
+                type: "tuple",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getNFTfeeAmount",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
     },
     {
         inputs: [
@@ -366,7 +541,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [],
@@ -380,11 +554,46 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [],
         name: "renounceOwnership",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_amount",
+                type: "uint256",
+            },
+        ],
+        name: "stake",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "_gameId",
+                type: "string",
+            },
+            {
+                internalType: "address",
+                name: "_white",
+                type: "address",
+            },
+            {
+                internalType: "address",
+                name: "_black",
+                type: "address",
+            },
+        ],
+        name: "startGame",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -401,7 +610,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [],
@@ -415,7 +623,6 @@ const abi = [
         ],
         stateMutability: "view",
         type: "function",
-        constant: true,
     },
     {
         inputs: [
@@ -486,228 +693,12 @@ const abi = [
     {
         inputs: [
             {
-                internalType: "address",
-                name: "newMaster",
-                type: "address",
-            },
-        ],
-        name: "changeServer",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "getBetAmount",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-    },
-    {
-        inputs: [],
-        name: "getFeeAmount",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-    },
-    {
-        inputs: [],
-        name: "getNFTfeeAmount",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-    },
-    {
-        inputs: [],
-        name: "getCollectedFees",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_bet",
-                type: "uint256",
-            },
-        ],
-        name: "changeBet",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_fee",
-                type: "uint256",
-            },
-        ],
-        name: "changeFee",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_fee",
-                type: "uint256",
-            },
-        ],
-        name: "changeNFTFee",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "collectFee",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_amount",
-                type: "uint256",
-            },
-        ],
-        name: "stake",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
                 internalType: "uint256",
                 name: "_amount",
                 type: "uint256",
             },
         ],
         name: "unstake",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "string",
-                name: "_gameId",
-                type: "string",
-            },
-            {
-                internalType: "address",
-                name: "_white",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "_black",
-                type: "address",
-            },
-        ],
-        name: "startGame",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "string",
-                name: "_gameId",
-                type: "string",
-            },
-        ],
-        name: "getGame",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "address",
-                        name: "white",
-                        type: "address",
-                    },
-                    {
-                        internalType: "address",
-                        name: "black",
-                        type: "address",
-                    },
-                    {
-                        internalType: "uint8",
-                        name: "outcome",
-                        type: "uint8",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "nft",
-                        type: "uint256",
-                    },
-                ],
-                internalType: "struct ChessGame.Game",
-                name: "game",
-                type: "tuple",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-    },
-    {
-        inputs: [
-            {
-                internalType: "string",
-                name: "_gameId",
-                type: "string",
-            },
-            {
-                internalType: "uint8",
-                name: "_outcome",
-                type: "uint8",
-            },
-            {
-                internalType: "string",
-                name: "_ipfsHash",
-                type: "string",
-            },
-        ],
-        name: "endGame",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
