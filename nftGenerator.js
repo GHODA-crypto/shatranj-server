@@ -76,7 +76,7 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
         const frameCtx = frame.getContext("2d");
         const frame2 = createCanvas(1080, 1080);
         const frame2Ctx = frame2.getContext("2d");
-        const framePiece = createCanvas(100, 100);
+        const framePiece = createCanvas(1080, 1080);
         const framePieceCtx = framePiece.getContext("2d");
 
         if (whiteORblack == 0) {
@@ -136,18 +136,18 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
         let piece_fg = loadImage(`./inputs/${lmPiece}_fg_${whiteORblack}.png`);
         frameCtx.drawImage(await piece_fg, 263, 263, 780, 780);
         const NFT = frame.toBuffer("image/png");
-        saveImageFromCanvas(frame, "NFT");
+        // saveImageFromCanvas(frame, "NFT");
 
         let piece_skin_bg = loadImage(`./inputs/${lmPiece}_bg_${whiteORblack}.png`);
-        framePieceCtx.drawImage(await piece_skin_bg, 5, 5, 90, 90);
+        framePieceCtx.drawImage(await piece_skin_bg, 55, 55, 970, 970);
 
         let piece_skin = await loadImage(frame2.toBuffer("image/png"));
-        framePieceCtx.drawImage(await piece_skin, 5, 5, 90, 90);
+        framePieceCtx.drawImage(await piece_skin, 55, 55, 970, 970);
 
         let piece_skin_fg = loadImage(`./inputs/${lmPiece}_fg.png`);
-        framePieceCtx.drawImage(await piece_skin_fg, 5, 5, 90, 90);
+        framePieceCtx.drawImage(await piece_skin_fg, 55, 55, 970, 970);
         const pieceSkin = framePiece.toBuffer("image/png");
-        saveImageFromCanvas(framePiece, "pieceSkin");
+        // saveImageFromCanvas(framePiece, "pieceSkin");
 
         const pieceMap = {
             q: "Queen",
