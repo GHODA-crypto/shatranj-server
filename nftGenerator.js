@@ -142,7 +142,7 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
     let piece_fg = loadImage(`./inputs/${lmPiece}_fg_${whiteORblack}.png`);
     frameCtx.drawImage(await piece_fg, 263, 263, 780, 780);
     const NFT = frame.toBuffer("image/png");
-    saveImageFromCanvas(frame, "NFT");
+    // saveImageFromCanvas(frame, "NFT");
 
     let piece_skin_bg = loadImage(`./inputs/${lmPiece}_bg_${whiteORblack}.png`);
     framePieceCtx.drawImage(await piece_skin_bg, 55, 55, 970, 970);
@@ -153,7 +153,7 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
     let piece_skin_fg = loadImage(`./inputs/${lmPiece}_fg.png`);
     framePieceCtx.drawImage(await piece_skin_fg, 55, 55, 970, 970);
     const pieceSkin = framePiece.toBuffer("image/png");
-    saveImageFromCanvas(framePiece, "pieceSkin");
+    // saveImageFromCanvas(framePiece, "pieceSkin");
 
     const pieceMap = {
       q: "Queen",
@@ -211,9 +211,9 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
     };
     // console.log(nftData);
 
-    // const NFTmetadata = await client.store(nftData);
-    // console.log(NFTmetadata);
-    // return NFTmetadata.ipnft;
+    const NFTmetadata = await client.store(nftData);
+    console.log(NFTmetadata);
+    return NFTmetadata.ipnft;
   } catch (error) {
     console.log(error);
   }
