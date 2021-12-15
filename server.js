@@ -26,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 // });
 
 app.post("/start", async (req, res) => {
+    console.log(req.body);
+
     if (req.body.api != process.env.SERVER_API_KEY) {
         res.sendStatus(401);
         return;
@@ -40,7 +42,7 @@ app.post("/start", async (req, res) => {
                 return true;
             })
             .catch(err => {
-                // console.error(err);
+                console.error(err);
                 return false;
             });
     };
@@ -48,6 +50,8 @@ app.post("/start", async (req, res) => {
 });
 
 app.post("/end", async (req, res) => {
+    console.log(req.body);
+
     if (req.body.api != process.env.SERVER_API_KEY) {
         res.sendStatus(401);
         return;
@@ -74,7 +78,7 @@ app.post("/end", async (req, res) => {
     if (endGameRes === false) {
         res.sendStatus(500);
     } else {
-        res.status(200);
+        res.set("Content-Type", "application/json");
         res.send(JSON.stringify({ ipfs: ipfsHash, token_id: endGameRes }));
     }
 });
