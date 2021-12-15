@@ -8,7 +8,7 @@ const web3 = new Web3(process.env.MORALIS_NODE);
 const abi = require("./assets/abi");
 
 const app = express();
-const port = 8080;
+const port = 3000;
 
 const account = web3.eth.accounts.privateKeyToAccount(process.env.PRIVATE_KEY);
 web3.eth.accounts.wallet.add(account);
@@ -20,10 +20,10 @@ const contract = new web3.eth.Contract(abi, process.env.CONTRACT_ADDRESS, {
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-// app.post("/", async (req, res) => {
-//     const balance = await web3.eth.getBalance(account.address);
-//     res.send("Hello World! " + balance);
-// });
+app.get("/", async (req, res) => {
+    const balance = await web3.eth.getBalance(account.address);
+    res.send("Hello World! " + balance);
+});
 
 app.post("/start", async (req, res) => {
     console.log(req.body);
@@ -33,6 +33,12 @@ app.post("/start", async (req, res) => {
         return;
     }
     const { id, w, b } = req.body;
+
+    const check = await contract.methods.getGame(id).call();
+    if (check[2] > 0) {
+        res.sendStatus(400);
+        return;
+    }
     // const intGameId = encode(game.id);
     const startGameSend = async (id, w, b) => {
         return await contract.methods
@@ -57,6 +63,11 @@ app.post("/end", async (req, res) => {
         return;
     }
     const { id, pgn, outcome, needNFT, w, b } = req.body;
+    const check = await contract.methods.getGame(id).call();
+    if (check[2] > 1) {
+        res.sendStatus(400);
+        return;
+    }
     let ipfsHash = "";
     if (needNFT && (outcome == 3 || outcome == 4)) ipfsHash = await getNFT(id, pgn, outcome, w, b);
 
@@ -65,7 +76,7 @@ app.post("/end", async (req, res) => {
             .endGame(id, outcome, ipfsHash)
             .send()
             .then(async result => {
-                console.log(JSON.stringify(result));
+                // console.log(JSON.stringify(result));
                 const r = await contract.methods.getGame(id).call();
                 return r[3];
             })
@@ -79,6 +90,7 @@ app.post("/end", async (req, res) => {
         res.sendStatus(500);
     } else {
         res.set("Content-Type", "application/json");
+        res.status(200);
         res.send(JSON.stringify({ ipfs: ipfsHash, token_id: endGameRes }));
     }
 });

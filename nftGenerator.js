@@ -201,7 +201,7 @@ const getNFT = async (gameId, pgn, outcome, w, b) => {
         // console.log(nftData);
 
         const NFTmetadata = await client.store(nftData);
-        console.log(NFTmetadata);
+        // console.log(NFTmetadata);
         return NFTmetadata.ipnft;
     } catch (error) {
         console.log(error);
